@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+typedef struct {
+    int t1;
+    int t2;
+    int t3;
+} Time;
+
+void input_time(Time *time) {
+    printf("Введите время t1, t2, t3 через пробел: ");
+    scanf("%d %d %d", &time->t1, &time->t2, &time->t3);
+}
+
+double time_to_eat_cake(Time time) {
+    double rate1 = 1.0 / time.t1;
+    double rate2 = 1.0 / time.t2;
+    double rate3 = 1.0 / time.t3;
+    
+    double combined_rate = rate1 + rate2 + rate3;
+
+    double total_time = 1.0 / combined_rate;
+    
+    return total_time;
+}
+
+int main() {
+    Time time;
+
+    input_time(&time);
+
+    double result = time_to_eat_cake(time);
+
+    printf("Гости разом могут съесть пирог за: %.2f часов\n", result);
+    
+    return 0;
+}
