@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_LEN 14
+
+long long factorial(int n) {
+    long long result = 1;
+    for (int i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+
+typedef struct {
+    char ch;
+    int count;
+} CharFreq;
+
+int main() {
+    char word[MAX_LEN + 1];
+    
+    printf("Введіть слово: ");
+    scanf("%s", word);
+    
+    int length = strlen(word);
+    if (length > MAX_LEN) {
+        printf("Довжина слова не повинна перевищувати 14 символів.\n");
+        return 1;
+    }
+
+    CharFreq freq[256] = {0};
+    int unique_chars = 0;
+
+    for (int i = 0; i < length; i++) {
+        int found = 0;
+        for (int j = 0; j < unique_chars; j++) {
+            if (freq[j].ch == word[i]) {
+                freq[j].count++;
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            freq[unique_chars].ch = word[i];
+            freq[unique_chars].count = 1;
+            unique_chars++;
+        }
+    }
+
+    long long total_anagrams = factorial(length);
+
+    for (int i = 0; i < unique_chars; i++) {
+        if (freq[i].count > 1) {
+            total_anagrams /= factorial(freq[i].count);
+        }
+    }
+
+    printf("Кількість можливих анаграм: %lld\n", total_anagrams);
+
+    return 0;
+}
