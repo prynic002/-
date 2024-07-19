@@ -1,0 +1,34 @@
+#include <stdio.h>
+#define MOD 12345
+
+int main() {
+    int n;
+    printf("Введіть довжину послідовностей n: ");
+    scanf("%d", &n);
+    
+    if (n <= 1 || n >= 10000) {
+        printf("n повинно бути в межах від 2 до 9999.\n");
+        return 1;
+    }
+
+    if (n == 2) {
+        printf("Кількість шуканих послідовностей: 4\n");
+        return 0;
+    } else if (n == 3) {
+        printf("Кількість шуканих послідовностей: 7\n");
+        return 0;
+    }
+
+    int a = 1, b = 2, c = 4, d = 7;
+    for (int i = 4; i <= n; i++) {
+        int temp = (d + c + b) % MOD;
+        a = b;
+        b = c;
+        c = d;
+        d = temp;
+    }
+
+    printf("Кількість шуканих послідовностей: %d\n", d);
+
+    return 0;
+}
