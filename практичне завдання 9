@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <limits.h>
+
+int min_steps_iterative(int x, int y) {
+    if (x >= y) {
+        return x - y;
+    }
+
+    int dp[y + 1];
+    dp[x] = 0;
+
+    for (int i = x + 1; i <= y; i++) {
+        dp[i] = INT_MAX;
+        if (i % 2 == 0) {
+            dp[i] = dp[i / 2] + 1;
+        }
+        dp[i] = (dp[i] < dp[i - 1] + 1) ? dp[i] : dp[i - 1] + 1;
+    }
+
+    return dp[y];
+}
+
+int main() {
+    int x, y;
+    
+    printf("Введіть значення x та y через пробіл (0 <= x <= y < 2^31): ");
+    scanf("%d %d", &x, &y);
+
+    if (x < 0 || x > y || y > INT_MAX) {
+        printf("Некоректні вхідні дані.\n");
+        return 1;
+    }
+
+    int result = min_steps_iterative(x, y);
+    printf("Мінімальна кількість кроків для досягнення %d з %d: %d\n", y, x, result);
+    
+    return 0;
+}
