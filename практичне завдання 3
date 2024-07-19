@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+long long dp[31][4];
+
+long long count_numbers(int p, int state) {
+    if (p == 1) {
+        if (state == 0 || state == 2) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    if (dp[p][state] != -1) {
+        return dp[p][state];
+    }
+
+    if (state == 0) {
+        dp[p][state] = count_numbers(p - 1, 2) + count_numbers(p - 1, 3);
+    } else if (state == 1) {
+        dp[p][state] = count_numbers(p - 1, 0);
+    } else if (state == 2) {
+        dp[p][state] = count_numbers(p - 1, 0) + count_numbers(p - 1, 1);
+    } else if (state == 3) {
+        dp[p][state] = count_numbers(p - 1, 2);
+    }
+
+    return dp[p][state];
+}
+
+int main() {
+    int p;
+    printf("Введіть кількість розрядів p: ");
+    scanf("%d", &p);
+    
+    if (p <= 0 || p > 30) {
+        printf("p повинно бути в межах від 1 до 30.\n");
+        return 1;
+    }
+
+    for (int i = 0; i <= p; i++) {
+        for (int j = 0; j < 4; j++) {
+            dp[i][j] = -1;
+        }
+    }
+
+    long long result = count_numbers(p, 0) + count_numbers(p, 1) + count_numbers(p, 2) + count_numbers(p, 3);
+    printf("Кількість чисел із %d розрядів: %lld\n", p, result);
+
+    return 0;
+}
